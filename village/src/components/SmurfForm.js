@@ -33,11 +33,11 @@ class SmurfForm extends Component {
         console.log(err);
       });
     this.setState({
-      smurf: {
+
       name: '',
       age: '',
       height: ''
-      }
+    
     });
   }
 

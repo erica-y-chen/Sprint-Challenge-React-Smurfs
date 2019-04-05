@@ -4,6 +4,7 @@ import './App.css';
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
 import {Route, NavLink} from 'react-router-dom';
+import Smurf from './components/Smurf';
 
 class App extends Component {
   constructor(props) {
@@ -12,6 +13,14 @@ class App extends Component {
       smurfs: [],
     };
   }
+
+
+  getItemById = id => {
+    axios
+      .get(`http://localhost:3333/${id}`)
+      .then(res => this.setState({ activeItem: res.data }))
+      .catch(err => console.log(err));
+  };
 
   componentDidMount() {
     axios
@@ -34,15 +43,16 @@ class App extends Component {
     return (
       <div className="App">
         <div className = "header">
-          <div className = "Heading">Smurfs</div>
-          <NavLink exact to="/new-smurf"><button className="newSmurf">new smurf</button></NavLink>
+          <NavLink exact to ="/"><button className = "Heading">HOME</button></NavLink>
+          <NavLink exact to="/new-smurf"><button className="newSmurf">NEW</button></NavLink>
         </div>
         <Route path="/new-smurf" render ={props => <SmurfForm smurfs = {this.state.smurfs}/>} />
-        <Route exact path="/" render={props => <Smurfs smurfs={this.state.smurfs} />}/>
+        <Route exact path="/" render={props => <Smurfs {...props} smurfs={this.state.smurfs} getItemById={this.getItemById} />}/>
       </div>
     );
   }
 }
 
 export default App;
+
 
