@@ -5,24 +5,27 @@ class SmurfForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      smurf: {
       name: '',
       age: '',
       height: '',
-      smurfs: props.smurfs,
-      }
     };
   }
 
   addSmurf = (event) => {
     event.preventDefault();
     // add code to create the smurf using the api
-    console.log(this.state.smurf)
+    const smurf = {
+      name: this.state.name,
+      age: this.state.age,
+      height: this.state.height
+    }
+
     axios
-      .post('http://localhost:3333/smurfs', this.state.smurf)
+      .post('http://localhost:3333/smurfs', smurf)
       .then(res => {
+        // console.log(res.data)
         this.setState({
-          smurfs: res.data
+          smurf: res.data
         });
       })
 
@@ -30,31 +33,13 @@ class SmurfForm extends Component {
         console.log(err);
       });
     this.setState({
-
+      smurf: {
       name: '',
       age: '',
       height: ''
-      
+      }
     });
   }
-
-
-  // addItem = (e, friend) => {
-  //   e.preventDefault();
-  //   console.log(friend)
-  //   axios 
-  //     .post('http://localhost:5000/friends', friend)
-  //     .then(res => {
-  //       this.setState({
-  //         friends: res.data
-  //       });
-
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
-
 
   handleInputChange = e => {
     this.setState({ [e.target.name]: e.target.value });
